@@ -1,0 +1,4 @@
+# Enable ULP and reserve max. amount of memory
+# (4KiB, since the other 4KiB of RTC slow memory are reserved)
+CONFIG_ESP32_ULP_COPROC_ENABLED=y
+CONFIG_ESP32_ULP_COPROC_RESERVE_MEM=4096
