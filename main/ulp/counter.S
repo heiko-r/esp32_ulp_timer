@@ -21,6 +21,18 @@ time_reg_3:
     .text
     .global entry
 entry:
+    /* Trigger update of register */
+    WRITE_RTC_REG(RTC_CNTL_TIME_UPDATE_REG, RTC_CNTL_TIME_UPDATE_S, 1, 1)
+    JUMP check_time_valid
+    
+
+check_time_valid:
+    /* Check if RTC_CNTL_TIME_VALID bit is one, otherwise repeat */
+    READ_RTC_REG(RTC_CNTL_TIME_UPDATE_REG, RTC_CNTL_TIME_VALID_S, 1)
+    AND R0, R0, 1
+    JUMP check_time_valid, EQ
+    
+    /* Read timer registers */
     READ_RTC_REG(RTC_CNTL_TIME0_REG, 0, 16)
     MOVE R2, time_reg_1
     ST R0, R2, 0
